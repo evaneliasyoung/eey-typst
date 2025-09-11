@@ -1,0 +1,6 @@
+[package]
+name = "eey-homework"
+version = "0.2.1"
+entrypoint = "lib.typ"
+authors = ["Evan Elias Young"]
+description = "A homework assignment template."
