@@ -77,7 +77,7 @@
 
   set par(justify: true)
 
-  set heading(numbering: (n1, ..x) => numbering("1 a i ", n1 - 1, ..x), outlined: true)
+  set heading(numbering: (n1, ..x) => numbering("1 a i ", calc.max(n1 - 1, 0), ..x), outlined: true)
   set enum(numbering: "1. a. i.")
   show heading: set block(below: 1em)
 
