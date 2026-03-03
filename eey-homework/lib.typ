@@ -27,6 +27,7 @@
   authors: (
     (name: "Evan Elias Young", email: "eeymrr@mst.edu"),
   ),
+  section_index_base: 0,
 ) = {
   set document(
     author: (authors.map(author => author.name)),
@@ -80,7 +81,7 @@
   set heading(
     outlined: true,
     numbering: (n1, ..rest) => {
-      numbering("1 a i", calc.max(n1 - 1, 0), ..rest)
+      numbering("1 a i", calc.max(n1 + section_index_base - 1, 0), ..rest)
     },
   )
 
