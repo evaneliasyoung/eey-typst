@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+tasks:
+  build:*:pdf:
+    vars:
+      TEMPLATE: "{{index .MATCH 0}}"
+    desc: Build an example's PDF
+    cmd: typst compile ./examples/{{.TEMPLATE}}.typ --root .
+    sources:
+      - ./examples/{{.TEMPLATE}}/**/.*
+      - ./{{.TEMPLATE}}/**/.*
+      - exclude: ./examples/{{.TEMPLATE}}.pdf
+      - exclude: ./examples/{{.TEMPLATE}}.png
+    generates:
+      - ./examples/{{.TEMPLATE}}.pdf
+    internal: true
+
+  build:*:png:
+    vars:
+      TEMPLATE: "{{index .MATCH 0}}"
+    desc: Build an example's PDF
+    cmd: typst compile ./examples/{{.TEMPLATE}}.typ --root . --format png --ppi 144 --pages 1
+    sources:
+      - ./examples/{{.TEMPLATE}}/**/.*
+      - ./{{.TEMPLATE}}/**/.*
+      - exclude: ./examples/{{.TEMPLATE}}.pdf
+      - exclude: ./examples/{{.TEMPLATE}}.png
+    generates:
+      - ./examples/{{.TEMPLATE}}.png
+    internal: true
+
+  build:*:
+    vars:
+      TEMPLATE: "{{index .MATCH 0}}"
+    desc: Build an example's PDF & PNG
+    deps:
+      - task: build:{{.TEMPLATE}}:pdf
+      - task: build:{{.TEMPLATE}}:png
+    failfast: true
+    sources:
+      - ./examples/{{.TEMPLATE}}/**/.*
+      - ./{{.TEMPLATE}}/**/.*
+      - exclude: ./examples/{{.TEMPLATE}}.pdf
+      - exclude: ./examples/{{.TEMPLATE}}.png
+    generates:
+      - ./examples/{{.TEMPLATE}}.pdf
+      - ./examples/{{.TEMPLATE}}.png
+    internal: true
+
+  build:
+    desc: Build the examples
+    deps:
+      - task: build:eey-homework
+    failfast: true
